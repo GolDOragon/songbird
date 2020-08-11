@@ -1,0 +1,67 @@
+$fontColor: #fff;
+$categories-bg-Color: hsl(165, 100%, 27%);
+$categories-bg-Color_hover: hsl(165, 100%, 37%);
+$categories-border-color: #007c5d;
+
+.header {
+  margin-top: 0.5rem;
+  flex-direction: column;
+
+  &_top-panel {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    color: $fontColor;
+  }
+
+  &_categories {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-bottom: 25px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+}
+
+.top-panel {
+  &_logo {
+    width: 200px;
+    height: 55px;
+    background-image: url("../../assets/img/logo.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  &_score {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.page-link {
+  border: 0;
+
+  &:hover {
+    color: $fontColor;
+    text-decoration: none;
+    user-select: none;
+    background-color: $categories-bg-Color;
+    border-color: $categories-border-color;
+  }
+}
+
+.categories {
+  &_item {
+    flex: auto;
+    text-align: center;
+    color: $fontColor;
+    background-color: $categories-bg-Color;
+    border-color: $categories-border-color;
+
+    &.active {
+      background-color: $categories-bg-Color_hover;
+      border-color: $categories-border-color;
+    }
+  }
+}
