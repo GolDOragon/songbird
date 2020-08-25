@@ -1,68 +1,68 @@
 import React, { useState } from "react";
-import "./Answers.scss";
 import getCSSClass from "../../core/getCSSButton";
+import "./Answers.scss";
 
 export default function Answers(props) {
+  const { rightAnswer, birds } = props;
+  // const [win, setWin] = useState(false);
   const [score, setScore] = useState(5);
-  const [birdList, setBirdList] = useState(
-    props.birds.map((bird) => ({
-      ...bird,
-      checked: false,
-    }))
-  );
 
-  function getStatus(selectBirdID, score) {
-    const status = {
-      id: selectBirdID,
-      score,
-      isSuccess: false,
-    };
-    if (selectBirdID === props.rightAnswer) status.isSuccess = true;
-    return status;
-  }
+  const handleSelectBird = (id) => {
+    if (rightAnswer !== id) setScore(score - 1);
 
-  function handleSelectBird(id) {
-    setBirdList(
-      birdList.map((bird) => {
-        const newValue = {
-          ...bird,
-        };
+    const report = getReport(rightAnswer, id, score);
+    props.onSelectBird(report);
+  };
 
-        if (bird.id === id) newValue.checked = true;
-        return newValue;
-      })
-    );
-
-    const isSuccess = props.rightAnswer === id;
-
-    if (!isSuccess) setScore(score - 1);
-    props.onSelectBird(getStatus(id, score));
-  }
+  const handleRepeatBird = (id) => {
+    const report = getReport(rightAnswer, id, score, true);
+    props.onRepeatBird(report);
+  };
 
   return (
-    <ul className="birds-list list-group">
-      {birdList.map((bird) => (
-        <MenuItem
-          name={bird.name}
-          id={bird.id}
-          isRight={props.rightAnswer === bird.id}
-          checked={bird.checked}
-          onSelectBird={(id) => handleSelectBird(id)}
-        />
-      ))}
-    </ul>
+    <div className="card bg-dark">
+      <ul className="birds-list list-group card-body">
+        {birds.map((bird) => (
+          <MenuItem
+            key={bird.id.toString()}
+            name={bird.name}
+            id={bird.id}
+            isRight={rightAnswer === bird.id}
+            onSelectBird={(id) => handleSelectBird(id)}
+            onRepeatBird={(id) => handleRepeatBird(id)}
+          />
+        ))}
+      </ul>
+    </div>
   );
 }
 
 function MenuItem(props) {
+  const [isChecked, setIsChecked] = useState(false);
   const handleClick = (id) => {
-    props.onSelectBird(id);
+    if (!isChecked) {
+      setIsChecked(true);
+      props.onSelectBird(id);
+    } else {
+      props.onRepeatBird(id);
+    }
   };
 
   return (
     <li className="li-group-item" onClick={() => handleClick(props.id)}>
-      <span className={getCSSClass(props.isRight, props.checked)}></span>
+      <span className={getCSSClass(props.isRight, isChecked)}></span>
       {props.name}
     </li>
   );
+}
+
+function getReport(rightBirdID, id, score, isRepeat = false) {
+  const report = {
+    id,
+    score,
+    status: id === rightBirdID ? "success" : "failure",
+  };
+  if (isRepeat) report.status = "repeat";
+
+  return report;
 }

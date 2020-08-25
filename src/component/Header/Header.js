@@ -1,11 +1,11 @@
 import React from "react";
-import "./header.scss";
+import "./Header.scss";
 
 export default function Header(props) {
   const { activeCategory } = props;
-  const getCSSClass = (index) => {
+  const getCSSClass = (name) => {
     let CSSClass = "categories_item page-link";
-    if (index === activeCategory) CSSClass += " active";
+    if (name === activeCategory) CSSClass += " active";
     return CSSClass;
   };
 
@@ -17,8 +17,8 @@ export default function Header(props) {
       </div>
       <ul className="header_categories pagination">
         {props.categories.map((category, i) => (
-          <li className={getCSSClass(i)} key={category.id}>
-            {category.name}
+          <li className={getCSSClass(category)} key={i}>
+            {category}
           </li>
         ))}
       </ul>
