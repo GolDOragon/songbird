@@ -1,6 +1,9 @@
 .birds-list {
   color: #fff;
-  margin-left: 0;
+
+  &.list-group {
+    margin-left: 0;
+  }
 
   & > li {
     padding: 1rem;

@@ -4,11 +4,12 @@ import "./Answers.scss";
 
 export default function Answers(props) {
   const { rightAnswer, birds } = props;
-  // const [win, setWin] = useState(false);
   const [score, setScore] = useState(5);
+  const [isEndRound, setIsEndRound] = useState(false);
 
   const handleSelectBird = (id) => {
-    if (rightAnswer !== id) setScore(score - 1);
+    if (rightAnswer === id) setIsEndRound(true);
+    else setScore(score - 1);
 
     const report = getReport(rightAnswer, id, score);
     props.onSelectBird(report);
@@ -28,6 +29,7 @@ export default function Answers(props) {
             name={bird.name}
             id={bird.id}
             isRight={rightAnswer === bird.id}
+            isEndRound={isEndRound}
             onSelectBird={(id) => handleSelectBird(id)}
             onRepeatBird={(id) => handleRepeatBird(id)}
           />
@@ -40,11 +42,11 @@ export default function Answers(props) {
 function MenuItem(props) {
   const [isChecked, setIsChecked] = useState(false);
   const handleClick = (id) => {
-    if (!isChecked) {
+    if (props.isEndRound || isChecked) {
+      props.onRepeatBird(id);
+    } else {
       setIsChecked(true);
       props.onSelectBird(id);
-    } else {
-      props.onRepeatBird(id);
     }
   };
 
