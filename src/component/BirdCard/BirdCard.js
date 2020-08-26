@@ -1,5 +1,5 @@
 import React from "react";
-import AudioPlayer from "react-player";
+import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import "./BirdCard.scss";
 
 /**
@@ -7,8 +7,8 @@ import "./BirdCard.scss";
  * @example
  * <BirdCard birdConfig={Object} isFull={Boolean} isDefault={Boolean} isHideCard={Boolean} />
  */
-export default function BirdCard(props) {
-  const { birdInfo, isHideCard = false } = props;
+export default function BirdCard({ birdInfo }) {
+  const isHideCard = !birdInfo;
 
   return (
     <div className={"bird-card card full-height"}>
@@ -32,9 +32,7 @@ function Instruction() {
   );
 }
 
-function CardBody(props) {
-  const { birdInfo } = props;
-
+function CardBody({ birdInfo }) {
   return (
     <div className="card-body bird-details">
       <img
@@ -54,24 +52,16 @@ function CardBody(props) {
 
         <li
           className="bird-details_audio-player"
-          style={{ height: "40px", marginTop: "10px" }}
+          style={{ height: "50px", marginTop: "10px" }}
         >
-          <AudioPlayer
-            url={birdInfo.audio}
-            controls={true}
-            width="100%"
-            height="100%"
-            style={{ color: "black" }}
-          />
+          <AudioPlayer audio={birdInfo.audio} />
         </li>
       </ul>
     </div>
   );
 }
 
-function Description(props) {
-  const { description } = props;
-
+function Description({ description }) {
   return (
     <div className="bird-details_description list-group-item">
       {description}

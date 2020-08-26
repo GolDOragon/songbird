@@ -1,11 +1,21 @@
 import React from "react";
 import defaultImage from "../../assets/img/defaultBird.jpg";
-import AudioPlayer from "react-player";
-// import BirdCard from "../BirdCard/BirdCard";
+import successSound from "../../assets/sound/success.wav";
+import AudioPlayer from "../AudioPlayer/AudioPlayer";
 import "./Question.scss";
+import { useEffect, useState } from "react";
 
-export default function Question(props) {
-  const { birdInfo, isDefault } = props;
+export default function Question({ birdInfo, isDefault }) {
+  const [sound, setSound] = useState(birdInfo.audio);
+
+  useEffect(() => {
+    if (isDefault) {
+      setSound(birdInfo.audio);
+    } else {
+      setSound(successSound);
+    }
+  }, [isDefault, birdInfo.audio]);
+
   return (
     <div className="bird-question card-body">
       <img
@@ -19,17 +29,8 @@ export default function Question(props) {
           <h2>{isDefault ? "*****" : birdInfo.name}</h2>
         </li>
 
-        <li
-          className="bird-details_audio-player"
-          style={{ height: "40px", marginTop: "10px" }}
-        >
-          <AudioPlayer
-            url={birdInfo.audio}
-            controls={true}
-            width="100%"
-            height="100%"
-            style={{ color: "black" }}
-          />
+        <li className="bird-details_audio-player">
+          <AudioPlayer audio={sound} />
         </li>
       </ul>
     </div>
