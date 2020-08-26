@@ -1,10 +1,17 @@
 import React from "react";
-import "./audioPlayer.scss";
+import ReactPlayer, { RHAP_UI } from "react-h5-audio-player";
+import "./AudioPlayer.scss";
 
-export default function audioPlayer(props) {
+export default function AudioPlayer({ audio }) {
   return (
-    <div className="audio-player">
-      1
-    </div>
+    <ReactPlayer
+      src={audio}
+      showJumpControls={false}
+      autoPlayAfterSrcChange={false}
+      autoPlay={false}
+      customAdditionalControls={[]}
+      customProgressBarSection={[RHAP_UI.PROGRESS_BAR]}
+      layout={"horizontal-reverse"}
+    />
   );
 }
