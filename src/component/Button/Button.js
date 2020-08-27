@@ -14,7 +14,7 @@ export default function Button(props) {
         onClick={handleNextLevel}
         disabled={!props.isActive}
       >
-        Следующий уровень
+        {props.isLastRound ? "Результат" : "Следующий уровень"}
       </button>
     </div>
   );

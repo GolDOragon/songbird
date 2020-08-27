@@ -17,6 +17,7 @@ class App extends React.Component {
     this.handleSelectBird = this.handleSelectBird.bind(this);
     this.handleRepeatBird = this.handleRepeatBird.bind(this);
     this.handleNextLevel = this.handleNextLevel.bind(this);
+    this.handleStartNewGame = this.handleStartNewGame.bind(this);
 
     const categories = this.props.birdData.map(
       (birdGroup) => birdGroup.category
@@ -32,8 +33,7 @@ class App extends React.Component {
       categories,
       showDefaultCard: true,
       isGoToNextLevel: false,
-      // isEndgame: false,
-      isEndgame: true,
+      isEndgame: false,
     };
 
     this.audio = React.createRef();
@@ -66,6 +66,20 @@ class App extends React.Component {
 
     this.setState({
       selectedBird,
+    });
+  }
+
+  handleStartNewGame() {
+    this.setState({
+      score: 0,
+      currentGroup: 0,
+      envisionedBird: this.getRandomBird(this.props.birdData[0]),
+      selectedBird: null,
+      birdGroup: this.props.birdData[0], // category, birds
+      activeCategory: this.state.categories[0],
+      showDefaultCard: true,
+      isGoToNextLevel: false,
+      isEndgame: false,
     });
   }
 
@@ -137,13 +151,23 @@ class App extends React.Component {
             </div>
             <div style={{ padding: "1rem 0" }}>
               <Button
+                isLastRound={
+                  this.state.currentGroup === this.state.categories.length - 1
+                }
                 isActive={this.state.isGoToNextLevel}
                 onNextLevel={this.handleNextLevel}
               />
             </div>
           </>
         )}
-        {this.state.isEndgame && <Result />}
+        {this.state.isEndgame && (
+          <Result
+            score={this.state.score}
+            roundCount={this.state.categories.length}
+            onStartNewGame={this.handleStartNewGame}
+          />
+        )}
+
         <div style={{ display: "none" }}>
           <audio ref={this.audio}></audio>
         </div>
