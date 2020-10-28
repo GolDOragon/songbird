@@ -1,0 +1,14 @@
+$rhap_theme-color: #008a67; // Color of all buttons and volume/progress indicators
+$rhap_background-color: #353b41; // Color of the player background
+// $rhap_bar-color: #e4e4e4; // Color of volume and progress bar
+// $rhap_time-color: #333; // Font color of current time and duration
+// $rhap_font-family: inherit; // Font family of current time and duration
+@import "react-h5-audio-player/src/styles.scss";
+.rhap {
+  &_container {
+    box-shadow: 0 0 0 0 #fff;
+  }
+  &_additional-controls {
+    display: none;
+  }
+}
